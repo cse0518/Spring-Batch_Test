@@ -21,17 +21,17 @@ public class JobConfig {
     @Bean
     public Job simpleJob() {
         return new JobBuilder("simpleJob", jobRepository)
-                .start(step1())         // step1 실행
-                    .on("FAILED")// contribution.exitStatus가 FAILED 일 경우
-                    .to(step3())        // step3으로
-                    .on("*")     // step3의 결과와 관계 없이
-                    .end()              // Flow 종료
-                .from(step1())      // step1로부터
-                    .on("*") // contribution.exitStatus가 FAILED 이외의 모든 경우
-                    .to(step2())    // step2로
-                    .next(step3())  // step2 종료 후 step3
-                    .on("*") // step3의 결과와 관계 없이
-                    .end()          // Flow 종료
+                .start(step1())   // step1 실행
+                    .on("FAILED") // contribution.exitStatus가 FAILED 일 경우
+                    .to(step3())  // step3으로
+                    .on("*")      // step3의 결과와 관계 없이
+                    .end()        // Flow 종료
+                .from(step1())     // step1로부터
+                    .on("*")       // contribution.exitStatus가 FAILED 이외의 모든 경우
+                    .to(step2())   // step2로
+                    .next(step3()) // step2 종료 후 step3
+                    .on("*")       // step3의 결과와 관계 없이
+                    .end()         // Flow 종료
                 .end() // Job 종료
                 .build();
     }

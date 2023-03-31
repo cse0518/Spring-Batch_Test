@@ -30,11 +30,11 @@ public class DeciderJobConfig {
                 .start(startStep())
                 .next(decider()) // 홀수, 짝수 구분
                 .from(decider())
-                    .on("ODD") // decider 상태가 ODD라면
-                    .to(oddStep())    // oddStep으로
+                    .on("ODD")     // decider 상태가 ODD라면
+                    .to(oddStep()) // oddStep으로
                 .from(decider())
-                    .on("EVEN") // decider의 상태가 EVEN이라면
-                    .to(evenStep())    // evenStep으로
+                    .on("EVEN")     // decider의 상태가 EVEN이라면
+                    .to(evenStep()) // evenStep으로
                 .end() // builder 종료
                 .build();
     }
