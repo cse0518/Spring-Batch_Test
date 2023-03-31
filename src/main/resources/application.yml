@@ -1,3 +1,6 @@
 spring:
   profiles:
     active: local
+  batch:
+    job:
+      name: ${job.name:NONE} # Program arguments 추가 ex) --job.name=stepNextJob

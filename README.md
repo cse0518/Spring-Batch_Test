@@ -3,7 +3,7 @@
 - 스프링 배치 프로그램을 실습합니다.
 
 <details>
-<summary>기본 Job Configuration</summary>
+<summary>Job Configuration</summary>
 <div>
 
 - Spring Batch 5.0 이전 (기존 버전)
@@ -78,6 +78,19 @@
 
 </div>
 </details>
+
+<details>
+<summary>운영 환경에서 실행 명령</summary>
+<div>
+
+```shell
+java -jar batch-application.jar --job.name=simpleJob
+```
+
+</div>
+</details>
+
+
 
 ## References
 
