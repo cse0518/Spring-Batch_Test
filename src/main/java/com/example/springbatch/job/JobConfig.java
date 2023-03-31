@@ -15,17 +15,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 public class JobConfig {
 
-//  기존 방식 deprecated
-//  private final JobBuilderFactory jobBuilderFactory;
-//  private final StepBuilderFactory stepBuilderFactory;
     private final JobRepository jobRepository;
 
     @Bean
     public Job simpleJob(Step step) {
-//      기존 방식
-//      return jobBuilderFactory.get("simpleJob")
-//              .start(simpleStep1())
-//              .build();
         return new JobBuilder("simpleJob", jobRepository)
                 .start(step)
                 .build();
@@ -33,10 +26,6 @@ public class JobConfig {
 
     @Bean
     public Step simpleStep(PlatformTransactionManager transactionManager) {
-//      기존 방식
-//      stepBuilderFactory.get("simpleStep1")
-//              .tasklet((contribution, chunkContext) -> RepeatStatus.FINISHED)
-//              .build();
         return new StepBuilder("simpleStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> RepeatStatus.FINISHED)
                 .transactionManager(transactionManager)
