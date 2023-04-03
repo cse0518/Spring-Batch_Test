@@ -80,6 +80,67 @@
 </details>
 
 <details>
+<summary>Scope, Job Parameter</summary>
+<div>
+
+- 파라미터를 받아 여러 Batch 컴포넌트에서 사용 → Job Parameter  
+  Job Parameter를 사용하기 위해선 항상 Scope를 선언해야함.
+  - `@JobScope`
+    - Step 선언문에서 사용 가능
+    - jobParameters와 jobExecutionContext 사용 가능
+    - ex) `@Value("#{jobParameters[파라미터명]}")`
+  - `@StepScope`
+    - Tasklet 또는 ItemReader, ItemWriter, ItemProcessor에서 사용 가능
+    - jobParameters와 stepExecutionContext 사용 가능
+- default proxyMode
+  ```java
+  @Scope(value = "step", proxyMode = ScopedProxyMode.TARGET_CLASS)
+  @Retention(RetentionPolicy.RUNTIME)
+  @Documented
+  public @interface StepScope {
+  
+  }
+  ```
+  - 메소드의 리턴 타입을 구현체의 타입으로 사용해야 함.
+    - ItemReader 부분이 Proxy 객체로 생성되어 문제 발생.
+      ```java
+      @Bean
+      @StepScope
+      public ItemReader<Member> reader(@Value("#{jobParameters[firstName]}") String firstName) {
+          Map<String, Object> paramMap = new HashMap<>();
+          paramMap.put("firstName", firstName);
+    
+          JpaPagingItemReader<Member> reader = new JpaPagingItemReader<>();
+          reader.setQueryString("Select m From Member m where m.firstName=:firstName");
+          reader.setParameterValues(paramMap);
+          reader.setEntityManagerFactory(entityManagerFactory);
+          reader.setPageSize(10);
+    
+          return reader;
+      }
+      ```
+    - 메소드의 리턴 타입을 구현체의 타입으로 지정해서 해결.
+      ```java
+      @Bean
+      @StepScope
+      public JpaPagingItemReader<Member> reader(@Value("#{jobParameters[firstName]}") String firstName) {
+          Map<String, Object> paramMap = new HashMap<>();
+          paramMap.put("firstName", firstName);
+    
+          JpaPagingItemReader<Member> reader = new JpaPagingItemReader<>();
+          reader.setQueryString("Select m From Member m where m.firstName=:firstName");
+          reader.setParameterValues(paramMap);
+          reader.setEntityManagerFactory(entityManagerFactory);
+          reader.setPageSize(10);
+    
+          return reader;
+      }
+      ```
+
+</div>
+</details>
+
+<details>
 <summary>운영 환경에서 실행 명령</summary>
 <div>
 
