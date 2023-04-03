@@ -141,6 +141,23 @@
 </details>
 
 <details>
+<summary>Chunk</summary>
+<div>
+
+- `Chunk`
+  - 데이터 덩어리로 작업할 때 각 커밋 사이에 처리되는 row 수
+  - 한 번에 하나의 Item 단위로 데이터를 읽어서(read) 가공하고(process), Chunk 단위로 트랜잭션을 처리한다(write).
+  - 실패할 경우 chunk 단위로 롤백됨. 이전 chunk 범위는 반영.
+- `Page size` vs `Chunk size`
+  - `Page size`는 한 번에 조회할 Item 수
+  - `Chunk size`는 한 번에 처리될 트랜잭션 단위
+  - 즉, Page 단위로 끊어서 조회하고 Chunk 단위로 끊어서 처리한다.  
+    Page size와 Chunk size가 다를 경우 여러번의 비효율적인 쿼리가 발생하기 때문에 **같게 설정하는 것이 좋다.**
+
+</div>
+</details>
+
+<details>
 <summary>운영 환경에서 실행 명령</summary>
 <div>
 
@@ -150,8 +167,6 @@ java -jar batch-application.jar --job.name=simpleJob
 
 </div>
 </details>
-
-
 
 ## References
 
